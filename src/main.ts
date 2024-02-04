@@ -1,5 +1,9 @@
 import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const getFilePath = () => fileURLToPath(import.meta.url);
+const getDirPathFromFilePath = () => dirname(getFilePath());
 
 const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
@@ -8,7 +12,7 @@ const createMainWindow = () => {
     height: 600,
   });
 
-  mainWindow.loadFile(path.join(__dirname, '/renderer/index.html'));
+  mainWindow.loadFile(join(getDirPathFromFilePath(), '/renderer/index.html'));
 
   mainWindow.webContents.openDevTools();
 };
@@ -16,15 +20,15 @@ const createMainWindow = () => {
 app.whenReady().then(() => {
   createMainWindow();
 
-  app.on("activate", function () {
+  app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createMainWindow();
     }
   });
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
     app.quit();
   }
 });

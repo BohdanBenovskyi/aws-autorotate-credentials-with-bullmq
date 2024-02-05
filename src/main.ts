@@ -2,6 +2,9 @@ import { app, BrowserWindow } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const isMac = process.platform === 'darwin';
+const isDev = process.env.NODE_ENV !== 'production';
+
 const getFilePath = () => fileURLToPath(import.meta.url);
 const getDirPathFromFilePath = () => dirname(getFilePath());
 
@@ -14,7 +17,9 @@ const createMainWindow = () => {
 
   mainWindow.loadFile(join(getDirPathFromFilePath(), '/renderer/index.html'));
 
-  mainWindow.webContents.openDevTools();
+  if (isDev) {
+    mainWindow.webContents.openDevTools();
+  }
 };
 
 app.whenReady().then(() => {
@@ -28,7 +33,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!isMac) {
     app.quit();
   }
 });

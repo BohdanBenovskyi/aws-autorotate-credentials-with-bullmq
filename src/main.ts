@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, MenuItemConstructorOptions } from 'electron';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -11,7 +11,7 @@ const getDirPathFromFilePath = () => dirname(getFilePath());
 const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
     title: 'AWS Autorotate Credentials',
-    width: 800,
+    width: isDev ? 800 : 500,
     height: 600,
   });
 
@@ -24,6 +24,16 @@ const createMainWindow = () => {
 
 app.whenReady().then(() => {
   createMainWindow();
+
+  const menu: MenuItemConstructorOptions[] = [
+    ...(isMac ? [{ label: app.name, submenu: [{ label: 'About' }] }] : []),
+    ...(!isMac ? [{ label: 'Help', submenu: [{ label: 'About' }] }] : []),
+    { role: 'fileMenu' },
+  ];
+
+  const mainMenu = Menu.buildFromTemplate(menu);
+
+  Menu.setApplicationMenu(mainMenu);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

@@ -1,31 +1,16 @@
 {
   "env": {
-    "commonjs": true,
+    "browser": true,
     "es6": true,
     "node": true
   },
   "extends": [
-    "airbnb-base",
-    "prettier",
-    "plugin:node/recommended",
+    "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/electron",
+    "plugin:import/typescript"
   ],
-  "globals": {
-    "Atomics": "readonly",
-    "SharedArrayBuffer": "readonly"
-  },
-  "parserOptions": {
-    "ecmaVersion": 2018
-  },
-  "plugins": ["prettier", "@typescript-eslint"],
-  "rules": {
-    "prettier/prettier": "error",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-plusplus": "off",
-    "no-process-exit": "off",
-    "class-methods-use-this": "off"
-  }
+  "parser": "@typescript-eslint/parser"
 }

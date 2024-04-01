@@ -1,0 +1,6 @@
+# Ignore specific files
+package-lock.json
+
+.vscode
+.webpack
+node_modules

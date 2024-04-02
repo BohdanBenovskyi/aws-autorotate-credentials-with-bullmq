@@ -1,4 +1,5 @@
 import type { Configuration } from 'webpack';
+import path from 'path';
 
 import { rules } from './webpack.rules';
 import { plugins } from './webpack.plugins';
@@ -14,7 +15,17 @@ export const mainConfig: Configuration = {
     rules,
   },
   plugins,
+  resolveLoader: {
+    modules: [
+      path.join(__dirname, 'src'),
+      path.join(__dirname, 'node_modules')
+    ]
+  },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
-  },
+    modules: [
+      path.join(__dirname, 'src'),
+      path.join(__dirname, 'node_modules')
+    ]
+  }
 };

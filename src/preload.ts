@@ -1,9 +1,8 @@
-// See the Electron documentation for details on how to use preload scripts:
-// https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 import { contextBridge, ipcRenderer } from "electron";
 
 const handlers = {
     configurationsApi: {
+        testConnection: async (connectionString: string) => { return await ipcRenderer.invoke('test-connection', { connectionString }) },
         getConfigurations: async () => { return await ipcRenderer.invoke('get-configurations') }
     }
 }

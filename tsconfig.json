@@ -17,5 +17,5 @@
       "*": ["node_modules/*"]
     }
   },
-  "include": ["src/**/*", "./*.config.ts"]
+  "include": ["src/**/*", "./*.config.ts", "assets/**/*", "src/custom.d.ts"]
 }

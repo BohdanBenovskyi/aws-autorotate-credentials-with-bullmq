@@ -10,6 +10,12 @@ rules.push({
   use: ['style-loader', 'css-loader', 'postcss-loader'],
 });
 
+rules.push({
+  test: /\.svg$/i,
+  issuer: /\.[jt]sx?$/,
+  use: ['@svgr/webpack'],
+});
+
 export const rendererConfig: Configuration = {
   module: {
     rules,

@@ -9,7 +9,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type MappingItem {
+  originKeyName String
+  mappedKeyName String
+  aliases String[]
+}
+
 model configuration {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  mapping  Json
+  mapping  MappingItem[]
 }

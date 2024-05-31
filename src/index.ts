@@ -1,6 +1,8 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
 import { PrismaClient } from './database/generated/client';
 
+import { ConnectionStatus } from './constants/index.constants';
+
 declare const MAIN_WINDOW_WEBPACK_ENTRY: string;
 declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
@@ -9,6 +11,9 @@ declare const MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
+
+let prismaClient: PrismaClient | undefined;
+let currentConnectionString: string | undefined;
 
 const createWindow = async (): Promise<void> => {
   const mainWindow = new BrowserWindow({
@@ -25,26 +30,30 @@ const createWindow = async (): Promise<void> => {
 
   mainWindow.webContents.openDevTools();
 
-  const prisma = new PrismaClient();
+  ipcMain.handle('test-connection', async (_event, data: { connectionString: string }): Promise<ConnectionStatus> => {
+    try {
+      if (prismaClient === undefined || currentConnectionString !== data.connectionString) {
+        currentConnectionString = data.connectionString;
 
-  ipcMain.handle('get-configurations', async () => {
-    return await prisma.configuration.findMany();
-  });
-
-  ipcMain.handle('test-connection', async (_event, data: { connectionString: string }) => {
-    const prismaClient = new PrismaClient({
-      datasources: {
-        db: {
-          url: data.connectionString
-        }
+        prismaClient = new PrismaClient({
+          datasources: {
+            db: {
+              url: data.connectionString
+            }
+          }
+        });
       }
-    });
 
-    const configurations = await prismaClient.configuration.findMany();
+      const configuration = await prismaClient.configuration.findFirst();
 
-    console.log(`Results ====> ${JSON.stringify(configurations)}`);
+      console.debug('Configuration', configuration);
 
-    return configurations;
+      return ConnectionStatus.SUCCESS;
+    } catch (error) {
+      console.log('An error occurred during testing connection', error);
+
+      return ConnectionStatus.ERROR;
+    }
   });
 };
 

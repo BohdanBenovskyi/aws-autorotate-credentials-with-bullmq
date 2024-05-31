@@ -1,17 +1,21 @@
+import { type TestConnectionButtonProps } from './types/testConnectionButton.types';
+
 import TestDatabaseConnection from './../../assests/svg/testDatabaseConnection.svg';
 
 const { autorotateApi } = window;
 
-const TestConnectionButton = (props: {
-  connectionString: string;
-}): JSX.Element => {
+const TestConnectionButton = ({
+  connectionString,
+  setConnectionResult,
+  renderToastResult,
+}: TestConnectionButtonProps): JSX.Element => {
   const testConnection = async (): Promise<void> => {
-    const testConnectionResult =
-      await autorotateApi.configurationsApi.testConnection(
-        props.connectionString,
-      );
+    const result = await autorotateApi.configurationsApi.testConnection(
+      connectionString,
+    );
 
-    console.log(testConnectionResult);
+    setConnectionResult(result);
+    renderToastResult(result);
   };
 
   return (

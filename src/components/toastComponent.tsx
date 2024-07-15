@@ -88,7 +88,7 @@ const Toast = (props: {
     return (
       <section
         id={'toast-interactive-' + toastId}
-        className="w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow bg-gray-900 text-gray-400 fixed top-5 right-5"
+        className="w-full max-w-xs p-4 text-gray-500 dark:bg-white rounded-lg shadow bg-gray-900 text-gray-400 fixed top-5 right-5"
         role="alert"
       >
         <section className="flex">
@@ -116,7 +116,7 @@ const Toast = (props: {
               <section>
                 <a
                   href="#"
-                  className="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 bg-gray-600 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-700 focus:ring-gray-700"
+                  className="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 dark:bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 bg-gray-600 text-white border-gray-600 hover:bg-gray-700 hover:border-gray-700 focus:ring-gray-700"
                   data-dismiss-target={'#toast-interactive-' + toastId}
                   aria-label="Close"
                   onClick={() => {
@@ -130,7 +130,7 @@ const Toast = (props: {
           </section>
           <button
             type="button"
-            className="ms-auto -mx-1.5 -my-1.5 bg-white items-center justify-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
+            className="ms-auto -mx-1.5 -my-1.5 dark:bg-white items-center justify-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
             data-dismiss-target={'#toast-interactive-' + toastId}
             aria-label="Close"
             onClick={() => {

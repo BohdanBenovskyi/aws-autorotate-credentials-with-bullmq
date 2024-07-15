@@ -6,6 +6,7 @@ const handlers = {
         testConnection: async (connectionString: string): Promise<ConnectionStatus> => {
             return await ipcRenderer.invoke('test-connection', { connectionString });
         },
+        selectDirectories: async (): Promise<string[]> => { return await ipcRenderer.invoke('select-dirs') },
     }
 }
 

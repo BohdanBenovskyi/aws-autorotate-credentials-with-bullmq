@@ -16,6 +16,7 @@ const SetDatabaseConnection = (): JSX.Element => {
   );
   const [toast, setToast] = useState(<></>);
   const [pathComponent, setPathComponent] = useState(<></>);
+  const [directoryPath, setDirectoryPath] = useState('');
 
   const renderToast = (connectionResult: ConnectionStatus): void => {
     const toastId: string = uuidv4();
@@ -36,7 +37,9 @@ const SetDatabaseConnection = (): JSX.Element => {
           toastActionHandler={() => {
             setConnectionResult(ConnectionStatus.HIDDEN);
             setToast(<></>);
-            setPathComponent(<PathComponent />);
+            setPathComponent(
+              <PathComponent setDirectoryPath={setDirectoryPath} />,
+            );
           }}
         />
       ) : (
@@ -115,7 +118,12 @@ const SetDatabaseConnection = (): JSX.Element => {
 
       {connectionResult !== ConnectionStatus.HIDDEN && toast}
 
-      {pathComponent !== undefined && <section>{pathComponent}</section>}
+      {pathComponent !== undefined && (
+        <section>
+          {pathComponent}
+          <section>{directoryPath}</section>
+        </section>
+      )}
     </>
   );
 };

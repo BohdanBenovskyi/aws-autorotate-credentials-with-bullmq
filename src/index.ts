@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { PrismaClient } from './database/generated/client';
 
 import { ConnectionStatus } from './constants/index.constants';
@@ -54,6 +54,14 @@ const createWindow = async (): Promise<void> => {
 
       return ConnectionStatus.ERROR;
     }
+  });
+
+  ipcMain.handle('select-dirs', async (): Promise<string[]> => {
+    const result = await dialog.showOpenDialog(mainWindow, {
+      properties: ['openDirectory'],
+    });
+
+    return result.filePaths;
   });
 };
 

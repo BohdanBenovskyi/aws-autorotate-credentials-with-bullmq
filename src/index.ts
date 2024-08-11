@@ -1,5 +1,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron';
 import { PrismaClient } from './database/generated/client';
+import { join, basename } from 'path';
+import { readdirSync } from 'fs';
 
 import { ConnectionStatus } from './constants/index.constants';
 
@@ -62,6 +64,25 @@ const createWindow = async (): Promise<void> => {
     });
 
     return result.filePaths;
+  });
+
+  ipcMain.handle('find-env-files', async (_event, data: { folderPath: string }): Promise<Array<{ folder: string; path: string }>> => {
+    const results: Array<{ folder: string; path: string }> = [];
+
+    const readDirectory = (dir: string): void => {
+      readdirSync(dir, { withFileTypes: true }).forEach((entry) => {
+        const fullPath = join(dir, entry.name);
+        if (entry.isDirectory() && entry.name !== 'node_modules') {
+          readDirectory(fullPath);
+        } else if (entry.isFile() && entry.name === '.env') {
+          results.push({ folder: basename(dir), path: fullPath });
+        }
+      });
+    };
+
+    readDirectory(data.folderPath);
+
+    return results;
   });
 };
 

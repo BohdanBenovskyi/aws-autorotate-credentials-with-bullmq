@@ -4,6 +4,7 @@ import { ConnectionStatus } from '../constants/index.constants';
 import TestConnectionButton from './testConnectionButton';
 import Toast from './toastComponent';
 import PathComponent from './pathComponent';
+import EnvListComponent from './envList';
 
 const SetDatabaseConnection = (): JSX.Element => {
   const connectionStringInputId = useId();
@@ -118,11 +119,10 @@ const SetDatabaseConnection = (): JSX.Element => {
 
       {connectionResult !== ConnectionStatus.HIDDEN && toast}
 
-      {pathComponent !== undefined && (
-        <section>
-          {pathComponent}
-          <section>{directoryPath}</section>
-        </section>
+      {pathComponent !== undefined && <section>{pathComponent}</section>}
+
+      {directoryPath !== undefined && directoryPath !== '' && (
+        <EnvListComponent pathToWorkingDirectory={directoryPath} />
       )}
     </>
   );
